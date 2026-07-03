@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dental Clinic Bot</title>
+<style>
+  body { font-family: Arial, sans-serif; background:#f4f6f8; margin:0; padding:0; }
+  #chat-container { max-width:420px; margin:40px auto; background:#fff; border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1); overflow:hidden; display:flex; flex-direction:column; height:600px; }
+  #chat-header { background:#2c7a7b; color:#fff; padding:16px; font-size:18px; font-weight:bold; }
+  #messages { flex:1; padding:16px; overflow-y:auto; }
+  .msg { margin-bottom:12px; padding:10px 14px; border-radius:8px; max-width:80%; line-height:1.4; }
+  .user { background:#2c7a7b; color:#fff; margin-left:auto; }
+  .bot { background:#e2e8f0; color:#222; margin-right:auto; }
+  #input-row { display:flex; border-top:1px solid #ddd; }
+  #input-box { flex:1; border:none; padding:14px; font-size:14px; }
+  #input-box:focus { outline:none; }
+  #send-btn { background:#2c7a7b; color:#fff; border:none; padding:0 20px; cursor:pointer; }
+  #send-btn:hover { background:#256666; }
+</style>
+</head>
+<body>
+
+<div id="chat-container">
+  <div id="chat-header">🦷 Dental Clinic Bot</div>
+  <div id="messages"></div>
+  <div id="input-row">
+    <input id="input-box" type="text" placeholder="Ask about hours, pricing, services..." />
+    <button id="send-btn">Send</button>
+  </div>
+</div>
+
+<script>
+const messagesEl = document.getElementById("messages");
+const inputEl = document.getElementById("input-box");
+const sendBtn = document.getElementById("send-btn");
+
+function addMessage(text, sender) {
+  const div = document.createElement("div");
+  div.className = "msg " + sender;
+  div.textContent = text;
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+async function sendMessage() {
+  const text = inputEl.value.trim();
+  if (!text) return;
+  addMessage(text, "user");
+  inputEl.value = "";
+  addMessage("Typing...", "bot");
+
+  try {
+    const res = await fetch("/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text })
+    });
+    const data = await res.json();
+    messagesEl.lastChild.remove(); // remove "Typing..."
+    addMessage(data.answer || "Sorry, something went wrong.", "bot");
+  } catch (err) {
+    messagesEl.lastChild.remove();
+    addMessage("Error reaching the server.", "bot");
+  }
+}
+
+sendBtn.addEventListener("click", sendMessage);
+inputEl.addEventListener("keydown", (e) => { if (e.key === "Enter") sendMessage(); });
+
+addMessage("Hi! Ask me about our hours, services, pricing, or insurance.", "bot");
+</script>
+
+</body>
+</html>
