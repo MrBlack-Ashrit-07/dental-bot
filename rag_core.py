@@ -10,15 +10,13 @@ key needed). Only the final answer-generation step calls an LLM API.
 import os
 import re
 import chromadb
-from chromadb.utils import embedding_functions
+from chromadb.utils.embedding_functions import ONNXMiniLM_L6_V2
 
 FAQ_PATH = os.path.join(os.path.dirname(__file__), "faq.md")
 DB_PATH = os.path.join(os.path.dirname(__file__), "chroma_db")
 
 # Free local embedding model — no API key, no cost, runs on CPU
-embedding_fn = embedding_functions.SentenceTransformerEmbeddingFunction(
-    model_name="all-MiniLM-L6-v2"
-)
+embedding_fn = ONNXMiniLM_L6_V2()
 
 client = chromadb.PersistentClient(path=DB_PATH)
 
