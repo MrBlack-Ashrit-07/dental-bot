@@ -70,6 +70,14 @@ def ask_llm(question, context_chunks):
 def home():
     return send_from_directory("static", "index.html")
 
+#Debug Route
+
+@app.route("/debug")
+def debug():
+    from rag_core import chunks, retrieve
+    test = retrieve("working hours", k=2)
+    return jsonify({"total_chunks": len(chunks), "sample_retrieval": test})
+
 
 @app.route("/chat", methods=["POST"])
 def chat():
