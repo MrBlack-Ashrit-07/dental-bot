@@ -16,7 +16,7 @@ from dotenv import load_dotenv;
 load_dotenv()
 from flask import Flask, request, jsonify, send_from_directory
 from groq import Groq
-from rag_core import retrieve, build_index
+from rag_core import retrieve
 
 
 app = Flask(__name__, static_folder="static")
@@ -84,6 +84,5 @@ def chat():
 
 
 if __name__ == "__main__":
-    build_index()  # ensure the index exists before first request
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)

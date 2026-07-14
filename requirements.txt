@@ -1,5 +1,5 @@
 flask
-chromadb
 groq
 gunicorn
 python-dotenv
+scikit-learn
