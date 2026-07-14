@@ -1,12 +1,3 @@
-"""
-rag_core.py
-Loads the FAQ doc, splits it into Q&A chunks, embeds them into a local
-ChromaDB collection, and exposes a retrieve() function used by app.py.
-
-Embeddings are generated locally with sentence-transformers (free, no API
-key needed). Only the final answer-generation step calls an LLM API.
-"""
-
 import os
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
