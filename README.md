@@ -12,6 +12,7 @@
 
 ## 🚀 Overview
 <img width="676" height="863" alt="Screenshot (72)" src="https://github.com/user-attachments/assets/d45cecae-a5a0-4028-9828-d506c837c92c" />
+
 Managing patient questions about treatments, post-care instructions, and clinic policies takes up hours of administrative time. This bot ingests specific dental documentation and clinic guidelines to provide patients with instant, accurate, and context-aware answers 24/7.
 
 ## 🏗️ Architecture & Tech Stack
